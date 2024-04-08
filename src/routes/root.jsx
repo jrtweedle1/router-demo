@@ -1,17 +1,9 @@
-import {
-	Outlet,
-	NavLink,
-	Link,
-	useLoaderData,
-	Form,
-	redirect,
-	useNavigation,
-} from "react-router-dom";
+import { Outlet, NavLink, Link, useLoaderData, Form, redirect, } from "react-router-dom";
 import { getContacts, createContact } from "../contacts";
 
 export async function action() {
 	const contact = await createContact();
-	return redirect(`/contacts/${contact.id}/edit`);
+    return redirect(`/contacts/${contact.id}/edit`);
 }
 
 export async function loader() {
@@ -21,8 +13,6 @@ export async function loader() {
 
 export default function Root() {
 	const { contacts } = useLoaderData();
-	const navigation = useNavigation();
-
 	return (
 		<>
 			<div id="sidebar">
@@ -49,17 +39,24 @@ export default function Root() {
 							{contacts.map((contact) => (
 								<li key={contact.id}>
 									<NavLink
-										to={`contacts/${contact.id}`}
-										className={({ isActive, isPending }) =>
-											isActive
-												? "active"
-												: isPending
-												? "pending"
-												: ""
-										}
-									>
+                    to={`contacts/${contact.id}`}
+                    className={({ isActive, isPending }) =>
+                      isActive
+                        ? "active"
+                        : isPending
+                        ? "pending"
+                        : ""
+                    }
+                  >
+										{contact.first || contact.last ? (
+											<>
+												{contact.first} {contact.last}
+											</>
+										) : (
+											<i>No Name</i>
+										)}{" "}
 										{contact.favorite && <span>★</span>}
-									</NavLink>
+                                        </NavLink>
 								</li>
 							))}
 						</ul>
@@ -70,10 +67,7 @@ export default function Root() {
 					)}
 				</nav>
 			</div>
-			<div
-				id="detail"
-				className={navigation.state === "loading" ? "loading" : ""}
-			>
+			<div id="detail">
 				<Outlet />
 			</div>
 		</>
