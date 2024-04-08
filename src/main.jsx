@@ -17,11 +17,11 @@ const router = createBrowserRouter([
 		errorElement: <ErrorPage />,
 		loader: rootLoader,
 		action: rootAction,
-        loader: contactLoader,
 		children: [
 			{
 				path: "contacts/:contactId",
 				element: <Contact />,
+                loader: contactLoader,
 			},
 		],
 	},
